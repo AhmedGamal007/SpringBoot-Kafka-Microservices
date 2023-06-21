@@ -14,14 +14,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class SecurityConfig{
 
-    @Value("${}")
+    @Value("${eureka.username}")
+    public String username;
+    @Value("${eureka.password}")
+    public String password;
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception{
 
         AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.inMemoryAuthentication()
-                        .withUser("eureka")
-                                .password("password")
+                        .withUser(username)
+                                .password(password)
                                         .authorities("USER");
         httpSecurity.csrf(csrf -> csrf.disable())
                 .authorizeRequests()
